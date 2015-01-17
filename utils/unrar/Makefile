@@ -31,7 +31,7 @@ define Package/unrar
   SUBMENU:=Compression
   TITLE:=UnRAR application
   URL:=http://www.rarlab.com/
-  DEPENDS:=$(CXX_DEPENDS) +libpthread
+  DEPENDS:=$(CXX_DEPENDS) +libpthread +uclibcxx
 endef
 
 define Package/unrar/description
