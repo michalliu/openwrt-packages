@@ -49,12 +49,18 @@ progs = btrfs btrfsck btrfs-convert btrfs-debug-tree btrfs-find-root \
 
 MAKE_FLAGS+=\
 	CC="$(TARGET_CC)" \
-	CFLAGS="$(TARGET_CPPFLAGS) $(TARGET_CFLAGS)" \
-	LDFLAGS="$(TARGET_LDFLAGS)" \
+	CFLAGS="$(TARGET_CPPFLAGS) $(TARGET_CFLAGS) -I$(PKG_BUILD_DIR)/lib/" \
+	LDFLAGS="$(TARGET_LDFLAGS) -L$(PKG_BUILD_DIR)/lib/" \
 	prefix=/usr \
 	DESTDIR=$(PKG_INSTALL_DIR) \
 	DISABLE_BACKTRACE=1 \
 	DISABLE_DOCUMENTATION=1
+
+define Build/Prepare
+	$(PKG_UNPACK)
+	$(Build/Patch)
+	$(CP) -rvf $(shell pwd)/src/* $(PKG_BUILD_DIR)
+endef
 
 define Package/btrfs-progs/install
 	$(INSTALL_DIR) $(1)/usr/lib
