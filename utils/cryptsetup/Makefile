@@ -6,6 +6,7 @@
 #
 
 include $(TOPDIR)/rules.mk
+include $(INCLUDE_DIR)/kernel.mk
 
 PKG_NAME:=cryptsetup
 PKG_VERSION:=1.6.6
@@ -23,6 +24,15 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSI
 include $(INCLUDE_DIR)/package.mk
 
 TARGET_LDFLAGS+=-Wl,-rpath-link=$(STAGING_DIR)/usr/lib
+
+TARGET_CPPFLAGS := \
+	-I$(PKG_BUILD_DIR)/include \
+	-I$(LINUX_DIR)/user_headers/include \
+	$(TARGET_CPPFLAGS)
+
+TARGET_CFLAGS += \
+	-I$(PKG_BUILD_DIR)/include \
+	-I$(LINUX_DIR)/user_headers/include
 
 define Package/cryptsetup/Default
   SECTION:=utils
@@ -64,6 +74,9 @@ ifeq ($(BUILD_VARIANT),openssl)
 CONFIGURE_ARGS+= \
         --with-crypto_backend=openssl
 endif
+
+CONFIGURE_ARGS+= \
+		--disable-kernel_crypto
 
 define Package/cryptsetup/install
 	$(INSTALL_DIR) $(1)/usr/sbin
