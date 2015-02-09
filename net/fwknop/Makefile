@@ -41,7 +41,7 @@ define Package/fwknopd
   CATEGORY:=Network
   SUBMENU:=Firewall
   TITLE+= Daemon
-  DEPENDS:=+iptables +libfko +libpcap
+  DEPENDS:=+iptables +libfko +libpcap +libssp
 endef
 
 define Package/fwknopd/description
@@ -60,7 +60,7 @@ define Package/fwknop
   CATEGORY:=Network
   SUBMENU:=Firewall
   TITLE+= Client
-  DEPENDS:=+libfko
+  DEPENDS:=+libfko +libssp
 endef
 
 define Package/fwknop/description
