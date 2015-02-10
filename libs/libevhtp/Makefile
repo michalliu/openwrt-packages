@@ -40,6 +40,16 @@ include $(INCLUDE_DIR)/cmake.mk
 
 Hooks/Prepare/Post += delete_source_package
 
+define DownloadMethod/default
+	# rename source package as its filename is ambiguous
+	if [ -f $(DL_DIR)/$(PKG_NAME)-$(PKG_VERSION)-$(PKG_MD5SUM).tar.gz ];then \
+		cp $(DL_DIR)/$(PKG_NAME)-$(PKG_VERSION)-$(PKG_MD5SUM).tar.gz $(DL_DIR)/$(PKG_SOURCE); \
+	else \
+		$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "$(FILE)" "$(MD5SUM)" $(foreach url,$(URL),"$(url)"); \
+		cp $(DL_DIR)/$(PKG_SOURCE) $(DL_DIR)/$(PKG_NAME)-$(PKG_VERSION)-$(PKG_MD5SUM).tar.gz; \
+	fi
+endef
+
 define delete_source_package
 	# deleting source package as its filename is ambiguous
 	rm -f $(DL_DIR)/$(PKG_SOURCE)
