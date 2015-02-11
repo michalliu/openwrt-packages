@@ -1,0 +1,39 @@
+--- a/tests/Makefile.in
++++ b/tests/Makefile.in
+@@ -871,21 +871,21 @@ uninstall-am:
+ 	tags tags-am uninstall uninstall-am
+ 
+ 
+-@HAVE_VALAC_TRUE@dacplisten.stamp: $(dacplisten_VALASOURCES)
+-@HAVE_VALAC_TRUE@	$(VALAC) --vapidir=../vala --pkg gee-0.8 --pkg gstreamer-1.0 --pkg libdmapsharing-3.0 --pkg libsoup-2.4 --pkg glib-2.0 --pkg avahi-gobject  $^ -C
+-@HAVE_VALAC_TRUE@	touch $@
+-
+-@HAVE_VALAC_TRUE@dpapview.stamp: $(dpapview_VALASOURCES)
+-@HAVE_VALAC_TRUE@	$(VALAC) --vapidir=../vala --pkg gee-0.8 --pkg gtk+-2.0 --pkg gstreamer-1.0 --pkg libdmapsharing-3.0 --pkg libsoup-2.4 --pkg glib-2.0 --pkg avahi-gobject $^ -C
+-@HAVE_VALAC_TRUE@	touch $@
+-
+-@HAVE_VALAC_TRUE@dmapcopy.stamp: $(dmapcopy_VALASOURCES)
+-@HAVE_VALAC_TRUE@	$(VALAC) --vapidir=../vala --pkg gee-0.8 --pkg gstreamer-1.0 --pkg libdmapsharing-3.0 --pkg libsoup-2.4 --pkg glib-2.0 --pkg avahi-gobject $^ -C
+-@HAVE_VALAC_TRUE@	touch $@
+-
+-@HAVE_VALAC_TRUE@dmapserve.stamp: $(dmapserve_VALASOURCES)
+-@HAVE_VALAC_TRUE@	$(VALAC) --vapidir=../vala --pkg gee-0.8 --pkg gstreamer-1.0 --pkg libdmapsharing-3.0 --pkg libsoup-2.4 --pkg glib-2.0 --pkg avahi-gobject $^ -C
+-@HAVE_VALAC_TRUE@	touch $@
++dacplisten.stamp: $(dacplisten_VALASOURCES)
++	#$(VALAC) --vapidir=../vala --pkg gee-0.8 --pkg gstreamer-1.0 --pkg libdmapsharing-3.0 --pkg libsoup-2.4 --pkg glib-2.0 --pkg avahi-gobject  $^ -C
++	touch $@
++
++dpapview.stamp: $(dpapview_VALASOURCES)
++	#$(VALAC) --vapidir=../vala --pkg gee-0.8 --pkg gtk+-2.0 --pkg gstreamer-1.0 --pkg libdmapsharing-3.0 --pkg libsoup-2.4 --pkg glib-2.0 --pkg avahi-gobject $^ -C
++	touch $@
++
++dmapcopy.stamp: $(dmapcopy_VALASOURCES)
++	#$(VALAC) --vapidir=../vala --pkg gee-0.8 --pkg gstreamer-1.0 --pkg libdmapsharing-3.0 --pkg libsoup-2.4 --pkg glib-2.0 --pkg avahi-gobject $^ -C
++	touch $@
++
++dmapserve.stamp: $(dmapserve_VALASOURCES)
++	#$(VALAC) --vapidir=../vala --pkg gee-0.8 --pkg gstreamer-1.0 --pkg libdmapsharing-3.0 --pkg libsoup-2.4 --pkg glib-2.0 --pkg avahi-gobject $^ -C
++	touch $@
+ 
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.
