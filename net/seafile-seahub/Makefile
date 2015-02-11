@@ -45,33 +45,60 @@ endef
 
 define Build/Compile
 	# Install python dependencies
+	if [ ! -f $(DL_DIR)/Django-1.5.8.tar.gz ];then \
+	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "Django-1.5.8.tar.gz"           "675fc736e2c29090f005e217ccf90b5b" "https://www.djangoproject.com/m/releases/1.5/"; \
+	fi
+	if [ ! -f $(DL_DIR)/djblets-release-0.6.14.tar.gz ];then \
+	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "djblets-release-0.6.14.tar.gz" "3ac8ebd83d1543dd3b84b4bf3b748aa4" "https://github.com/djblets/djblets/archive/"; \
+	fi
+	if [ ! -f $(DL_DIR)/gunicorn-0.16.1.tar.gz ];then \
+	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "gunicorn-0.16.1.tar.gz"        "d53d5d04d941f2a3089e814e753a218f" "https://pypi.python.org/packages/source/g/gunicorn/"; \
+	fi
+	if [ ! -f $(DL_DIR)/six-1.4.1.tar.gz ];then \
+	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "six-1.4.1.tar.gz"              "bdbb9e12d3336c198695aa4cf3a61d62" "https://pypi.python.org/packages/source/s/six/"; \
+	fi
+	if [ ! -f $(DL_DIR)/chardet-2.1.1.tar.gz ];then \
+	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "chardet-2.1.1.tar.gz"          "295367fd210d20f3febda615a88e1ef0" "https://pypi.python.org/packages/source/c/chardet/"; \
+	fi
+	if [ ! -f $(DL_DIR)/flup-1.0.2-py2.6.egg ];then \
+	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "flup-1.0.2-py2.6.egg"          "93ec6e3baeee3e5649a8456105178d4e" "https://pypi.python.org/packages/2.6/f/flup/"; \
+	fi
+	if [ ! -f $(DL_DIR)/lockfile-0.9.1.tar.gz ];then \
+	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "lockfile-0.9.1.tar.gz"         "ce61468d4c1263e3005737bbed2641f0" "https://pypi.python.org/packages/source/l/lockfile/"; \
+	fi
+	if [ ! -f $(DL_DIR)/python-daemon-1.5.5.tar.gz ];then \
+	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "python-daemon-1.5.5.tar.gz"    "1f6cd41473c2e201021a0aeef395b2b1" "https://pypi.python.org/packages/source/p/python-daemon/"; \
+	fi
+	if [ ! -f $(DL_DIR)/python-dateutil-1.5.tar.gz ];then \
+	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "python-dateutil-1.5.tar.gz"    "0dcb1de5e5cad69490a3b6ab63f0cfa5" "https://pypi.python.org/packages/source/p/python-dateutil/"; \
+	fi
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		https://www.djangoproject.com/m/releases/1.5/Django-1.5.8.tar.gz)
+		file:///$(DL_DIR)/Django-1.5.8.tar.gz)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		https://github.com/djblets/djblets/archive/release-0.6.14.tar.gz)
+		file:///$(DL_DIR)/djblets-release-0.6.14.tar.gz)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		https://pypi.python.org/packages/source/g/gunicorn/gunicorn-0.16.1.tar.gz)
+		file:///$(DL_DIR)/gunicorn-0.16.1.tar.gz)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		https://pypi.python.org/packages/source/s/six/six-1.4.1.tar.gz)
+		file:///$(DL_DIR)/six-1.4.1.tar.gz)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		https://pypi.python.org/packages/source/c/chardet/chardet-2.1.1.tar.gz)
+		file:///$(DL_DIR)/chardet-2.1.1.tar.gz)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		https://pypi.python.org/packages/2.6/f/flup/flup-1.0.2-py2.6.egg)
+		file:///$(DL_DIR)/flup-1.0.2-py2.6.egg)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		https://pypi.python.org/packages/source/l/lockfile/lockfile-0.9.1.tar.gz)
+		file:///$(DL_DIR)/lockfile-0.9.1.tar.gz)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		https://pypi.python.org/packages/source/p/python-daemon/python-daemon-1.5.5.tar.gz)
+		file:///$(DL_DIR)/python-daemon-1.5.5.tar.gz)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		https://pypi.python.org/packages/source/p/python-dateutil/python-dateutil-1.5.tar.gz)
+		file:///$(DL_DIR)/python-dateutil-1.5.tar.gz)
 endef
 
 define Package/seafile-seahub/install
