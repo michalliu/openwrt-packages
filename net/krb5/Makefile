@@ -16,6 +16,13 @@ PKG_CHECK_FORMAT_SECURITY:=0
 
 include $(INCLUDE_DIR)/package.mk
 
+TARGET_CFLAGS += \
+	-I$(LINUX_DIR)/include \
+	-I$(PKG_BUILD_DIR)/src/util/verto
+
+MAKE_FLAGS += \
+	CFLAGS="$(TARGET_CFLAGS)"
+
 MAKE_PATH:=src
 
 define Package/krb5/Default
