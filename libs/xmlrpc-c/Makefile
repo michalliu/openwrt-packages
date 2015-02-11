@@ -70,7 +70,7 @@ endef
 define Package/xmlrpc-c-client
   $(call Package/xmlrpc-c/Default)
   TITLE+= - client
-  DEPENDS:=+xmlrpc-c +libcurl
+  DEPENDS:=+xmlrpc-c +libcurl +libpolarssl
 endef
 
 define Package/xmlrpc-c-server
