@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gammu
-PKG_VERSION:=1.33.0
+PKG_VERSION:=1.34.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_URL:=http://dl.cihar.com/gammu/releases/
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
-PKG_MD5SUM:=66b95afbde3085168c4a20266e8cb5c0
+PKG_MD5SUM:=5bc2508389d9b291ca0b8d4f210d0012
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 PKG_MAINTAINER:=Vitaly Protsko <villy@sft.ru>
 PKG_LICENCE:=GPL-2.0
@@ -26,9 +26,10 @@ define Package/gammu
 	CATEGORY:=Utilities
 	TITLE:=Cell phone/modem SMS and control tool
 	URL:=http://dl.cihar.com/gammu/releases/
-	DEPENDS:=@BUILD_NLS +libpthread +libcurl +glib2 $(ICONV_DEPENDS) $(INTL_DEPENDS)
+	DEPENDS:=+libpthread +libcurl +glib2 $(ICONV_DEPENDS) $(INTL_DEPENDS)
 	DEPENDS+=+PACKAGE_python:python +PACKAGE_bluez-libs:bluez-libs
 	DEPENDS+=+PACKAGE_libmysqlclient:libmysqlclient +PACKAGE_unixodbc:unixodbc
+	DEPENDS+=+PACKAGE_libusb-1.0:libusb-1.0
 endef
 
 CONFIGURE_ARGS:= \
