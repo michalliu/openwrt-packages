@@ -9,17 +9,25 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gcc
-PKG_VERSION:=4.8.3
+ifeq ($(CONFIG_PACKAGE_gcc_version_4_8_3),y)
+  PKG_VERSION:=4.8.3
+  PKG_MD5SUM:=7c60f24fab389f77af203d2516ee110f
+endif
+ifeq ($(CONFIG_PACKAGE_gcc_version_4_9_2),y)
+  PKG_VERSION:=4.9.2
+  PKG_MD5SUM:=4df8ee253b7f3863ad0b86359cd39c43
+endif
 PKG_RELEASE:=1
 PKG_SOURCE_URL:=ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/gcc-$(PKG_VERSION) \
      http://mirrors.rcn.net/pub/sourceware/gcc/releases/gcc-$(PKG_VERSION) \
     ftp://ftp.gnu.org/gnu/gcc/releases/gcc-$(PKG_VERSION)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
-PKG_MD5SUM:=7c60f24fab389f77af203d2516ee110f
 PKG_INSTALL:=1
 PKG_FIXUP:=libtool
 PKG_BUILD_PARALLEL:=1
+# PATCH_DIR must be defined before include package.mk
+PATCH_DIR=./patches/$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -48,6 +56,20 @@ define Package/gcc/description
 	build a native toolchain for compiling on target
 endef
 
+define Package/gcc/config
+  choice
+    depends on PACKAGE_gcc
+    prompt "GCC compiler Version"
+    default PACKAGE_gcc_version_4_8_3
+
+    config PACKAGE_gcc_version_4_8_3
+      bool "gcc 4.8.3"
+
+    config PACKAGE_gcc_version_4_9_2
+      bool "gcc 4.9.2"
+
+  endchoice
+endef
 
 define Build/Prepare
 	$(PKG_UNPACK)
