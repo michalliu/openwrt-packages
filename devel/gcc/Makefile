@@ -31,7 +31,8 @@ PATCH_DIR=./patches/$(PKG_VERSION)
 
 include $(INCLUDE_DIR)/package.mk
 
-TARGET_LANGUAGES:="c,c++,go"
+SEP:=,
+TARGET_LANGUAGES:="$(if $(PACKAGE_gcc_c_lang),$(SEP)c)$(if $(PACKAGE_gcc_cpp_lang),$(SEP)c++)$(if $(PACKAGE_gcc_java_lang),$(SEP)java)$(if $(PACKAGE_gcc_fortran_lang),$(SEP)fortran)$(if $(PACKAGE_gcc_go_lang),$(SEP)go)"
 BUGURL=https://dev.openwrt.org/
 PKGVERSION=OpenWrt GCC $(PKG_VERSION)
 
@@ -69,6 +70,34 @@ define Package/gcc/config
       bool "gcc 4.9.2"
 
   endchoice
+  menu "GCC build options"
+    depends on PACKAGE_gcc
+    config PACKAGE_gcc_c_lang
+      bool "supports c lang"
+      default y
+      help
+        build gcc supports c.
+    config PACKAGE_gcc_cpp_lang
+      bool "supports c++ lang"
+      default y
+      help
+        build gcc supports c++.
+    config PACKAGE_gcc_java_lang
+      bool "supports java lang"
+      default n
+      help
+        build gcc supports java.
+    config PACKAGE_gcc_fortran_lang
+      bool "supports fortran lang"
+      default n
+      help
+        build gcc supports fortran.
+    config PACKAGE_gcc_go_lang
+      bool "supports go lang"
+      default n
+      help
+        build gcc supports go.
+  endmenu
 endef
 
 define Build/Prepare
