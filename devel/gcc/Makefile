@@ -32,7 +32,7 @@ PATCH_DIR=./patches/$(PKG_VERSION)
 include $(INCLUDE_DIR)/package.mk
 
 SEP:=,
-TARGET_LANGUAGES:="$(if $(PACKAGE_gcc_c_lang),$(SEP)c)$(if $(PACKAGE_gcc_cpp_lang),$(SEP)c++)$(if $(PACKAGE_gcc_java_lang),$(SEP)java)$(if $(PACKAGE_gcc_fortran_lang),$(SEP)fortran)$(if $(PACKAGE_gcc_go_lang),$(SEP)go)"
+TARGET_LANGUAGES:="$(if $(CONFIG_PACKAGE_gcc_c_lang),$(SEP)c)$(if $(CONFIG_PACKAGE_gcc_cpp_lang),$(SEP)c++)$(if $(CONFIG_PACKAGE_gcc_java_lang),$(SEP)java)$(if $(CONFIG_PACKAGE_gcc_fortran_lang),$(SEP)fortran)$(if $(CONFIG_PACKAGE_gcc_go_lang),$(SEP)go)"
 BUGURL=https://dev.openwrt.org/
 PKGVERSION=OpenWrt GCC $(PKG_VERSION)
 
@@ -100,9 +100,30 @@ define Package/gcc/config
   endmenu
 endef
 
+MPFR=mpfr-2.4.2.tar.bz2
+GMP=gmp-4.3.2.tar.bz2
+MPC=mpc-0.8.1.tar.gz
+ISL=isl-0.12.2.tar.bz2
+CLOOG=cloog-0.18.1.tar.gz
 define Build/Prepare
 	$(PKG_UNPACK)
 # 	we have to download additional stuff before patching
+	if [ -f $(DL_DIR)/$(MPFR) ];then \
+		ln -s $(DL_DIR)/$(MPFR) $(PKG_BUILD_DIR)/$(MPFR); \
+	fi; \
+	if [ -f $(DL_DIR)/$(GMP) ];then \
+		ln -s $(DL_DIR)/$(GMP) $(PKG_BUILD_DIR)/$(GMP); \
+	fi; \
+	if [ -f $(DL_DIR)/$(MPC) ];then \
+		ln -s $(DL_DIR)/$(MPC) $(PKG_BUILD_DIR)/$(MPC); \
+	fi; \
+	if [ -f $(DL_DIR)/$(ISL) ];then \
+		ln -s $(DL_DIR)/$(ISL) $(PKG_BUILD_DIR)/$(ISL); \
+	fi; \
+	if [ -f $(DL_DIR)/$(CLOOG) ];then \
+		ln -s $(DL_DIR)/$(CLOOG) $(PKG_BUILD_DIR)/$(CLOOG); \
+	fi
+	(cd $(PKG_BUILD_DIR) && sed -i "s/wget/wget -nc/g" ./contrib/download_prerequisites)
 	(cd $(PKG_BUILD_DIR) && ./contrib/download_prerequisites)
 	$(Build/Patch)
 endef
