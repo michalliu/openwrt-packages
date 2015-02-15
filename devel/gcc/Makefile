@@ -32,7 +32,7 @@ PATCH_DIR=./patches/$(PKG_VERSION)
 include $(INCLUDE_DIR)/package.mk
 
 SEP:=,
-TARGET_LANGUAGES:="$(if $(CONFIG_PACKAGE_gcc_c_lang),$(SEP)c)$(if $(CONFIG_PACKAGE_gcc_cpp_lang),$(SEP)c++)$(if $(CONFIG_PACKAGE_gcc_java_lang),$(SEP)java)$(if $(CONFIG_PACKAGE_gcc_fortran_lang),$(SEP)fortran)$(if $(CONFIG_PACKAGE_gcc_go_lang),$(SEP)go)"
+TARGET_LANGUAGES:="c,c++$(if $(CONFIG_PACKAGE_gcc_java_lang),$(SEP)java)$(if $(CONFIG_PACKAGE_gcc_fortran_lang),$(SEP)fortran)$(if $(CONFIG_PACKAGE_gcc_go_lang),$(SEP)go)"
 BUGURL=https://dev.openwrt.org/
 PKGVERSION=OpenWrt GCC $(PKG_VERSION)
 
@@ -72,16 +72,6 @@ define Package/gcc/config
   endchoice
   menu "GCC build options"
     depends on PACKAGE_gcc
-    config PACKAGE_gcc_c_lang
-      bool "supports c lang"
-      default y
-      help
-        build gcc supports c.
-    config PACKAGE_gcc_cpp_lang
-      bool "supports c++ lang"
-      default y
-      help
-        build gcc supports c++.
     config PACKAGE_gcc_java_lang
       bool "supports java lang"
       default n
