@@ -158,6 +158,9 @@ define Build/Compile
 			DESTDIR="$(PKG_INSTALL_DIR)" $(MAKE_ARGS) all install
 endef
 
+# $(1) build_dir/target-mips.../gcc-4.9.2/ipkg-ramips_1004kc/gcc
+# $(PKG_INSTALL_DIR) build_dir/target-mips.../gcc-4.9.2/ipkg-install
+#
 define Package/gcc/install
 	$(INSTALL_DIR) $(1)/usr/bin $(1)/usr/lib $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
 	cp -ar $(PKG_INSTALL_DIR)/usr/include $(1)/usr
@@ -169,12 +172,12 @@ define Package/gcc/install
 	ln -s $(REAL_GNU_TARGET_NAME)-gcc $(1)/usr/bin/$(REAL_GNU_TARGET_NAME)-gcc-$(PKG_VERSION)
 	ln -s $(REAL_GNU_TARGET_NAME)-gccgo $(1)/usr/bin/gccgo
 	cp -ar $(PKG_INSTALL_DIR)/usr/lib/gcc $(1)/usr/lib
-	$(RM) $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/*.a
+	#$(RM) $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/*.a
 	cp -ar $(TOOLCHAIN_DIR)/include $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
 	cp -a $(TOOLCHAIN_DIR)/lib/*.{o,so*} $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
 	cp -a $(TOOLCHAIN_DIR)/lib/*nonshared*.a  $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
-	cp -a $(PKG_INSTALL_DIR)/usr/lib/libgobegin.a $(1)/usr/lib/
-	cp -ar $(PKG_INSTALL_DIR)/usr/lib/go/$(PKG_VERSION)/$(REAL_GNU_TARGET_NAME)/* $(1)/usr/lib/gcc/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/
+	cp -ar $(PKG_INSTALL_DIR)/usr/lib/go $(1)/usr/lib/
+	cp -ar $(PKG_INSTALL_DIR)/usr/lib/libgo*.{a,so*} $(1)/usr/lib/
 	grep "GROUP.*-lgcc" $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/libgcc_s.so && cp -a $(PKG_INSTALL_DIR)/usr/lib/gcc/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/libgcc.a $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/ ; true
 endef
 
