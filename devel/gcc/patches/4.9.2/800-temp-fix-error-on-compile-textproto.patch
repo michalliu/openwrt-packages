@@ -5,7 +5,7 @@
  			// Set the capacity on strs[0] to 1, so any future append
  			// won't extend the slice into the other strings.
 -			vv, strs = strs[:1:1], strs[1:]
-+			vv, strs = strs[1:1], strs[1:]
++			vv, strs = strs[0:1], strs[1:]
  			vv[0] = value
  			m[key] = vv
  		} else {
