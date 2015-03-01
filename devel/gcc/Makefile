@@ -177,9 +177,15 @@ define Package/gcc/install
 	cp -a $(TOOLCHAIN_DIR)/lib/*.{o,so*} $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
 	cp -a $(TOOLCHAIN_DIR)/lib/*nonshared*.a  $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
 	grep "GROUP.*-lgcc" $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/libgcc_s.so && cp -a $(PKG_INSTALL_DIR)/usr/lib/gcc/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/libgcc.a $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/ ; true
+	# go libraries
+	cp -ar $(PKG_INSTALL_DIR)/usr/lib/go $(1)/usr/lib/
 	$(RM) $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/libgo.so*
-	cp -a $(TOOLCHAIN_DIR)/lib/libgo*.a  $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
-	cp -ar $(PKG_INSTALL_DIR)/usr/lib/go  $(1)/usr/lib/
+	# use libgo from toolchain, not working, something is wrong
+	#cp -a $(TOOLCHAIN_DIR)/lib/libgo*.a  $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
+	#cp -a $(TOOLCHAIN_DIR)/lib/libgo.so* $(1)/usr/lib/
+	# uncomment to use libgo from this package rather than toolchain
+	cp -ar $(PKG_INSTALL_DIR)/usr/lib/libgo*.a $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
+	cp -ar $(PKG_INSTALL_DIR)/usr/lib/libgo.so* $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
 endef
 
 $(eval $(call BuildPackage,gcc))
