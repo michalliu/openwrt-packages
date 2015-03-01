@@ -1,0 +1,11 @@
+--- a/Makefile
++++ b/Makefile
+@@ -1640,7 +1640,7 @@ git.sp git.s git.o: EXTRA_CPPFLAGS = \
+ 
+ git$X: git.o GIT-LDFLAGS $(BUILTIN_OBJS) $(GITLIBS)
+ 	$(QUIET_LINK)$(CC) $(ALL_CFLAGS) -o $@ $(ALL_LDFLAGS) git.o \
+-		$(BUILTIN_OBJS) $(LIBS)
++		$(BUILTIN_OBJS) $(LIBS) $(IMAP_SEND_LDFLAGS) $(IMAP_SEND_BUILDDEPS)
+ 
+ help.sp help.s help.o: common-cmds.h
+ 
