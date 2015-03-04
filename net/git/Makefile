@@ -48,7 +48,6 @@ MAKE_FLAGS := \
 	NO_IPV6="YesPlease" \
 	NO_ICONV="YesPlease" \
 	NO_NSEC="YesPlease" \
-	NO_PERL="YesPlease" \
 	NO_PYTHON="YesPlease" \
 	NO_TCLTK="YesPlease"
 
