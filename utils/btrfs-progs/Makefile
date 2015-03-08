@@ -62,6 +62,13 @@ define Build/Prepare
 	$(CP) -rvf $(shell pwd)/src/* $(PKG_BUILD_DIR)
 endef
 
+define Build/InstallDev
+	$(INSTALL_DIR) $(1)/usr/include
+	$(CP) -rvf $(PKG_INSTALL_DIR)/usr/include/btrfs $(1)/usr/include/
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libbtrfs.{a,so*} $(1)/usr/lib/
+endef
+
 define Package/btrfs-progs/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/libbtrfs.so* $(1)/usr/lib
@@ -69,6 +76,7 @@ define Package/btrfs-progs/install
 	$(INSTALL_BIN) $(addprefix $(PKG_INSTALL_DIR)/usr/bin/, $(progs)) $(1)/usr/bin/
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/btrfs-scan.init $(1)/etc/init.d/btrfs-scan
+	#$(call Build/InstallDev,$(1))
 endef
 
 $(eval $(call BuildPackage,btrfs-progs))
