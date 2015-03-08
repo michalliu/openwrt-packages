@@ -95,6 +95,7 @@ endef
 define Package/libsqlite3/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libsqlite3.so.* $(1)/usr/lib/
+	#$(call Build/InstallDev,$(1))
 endef
 
 define Package/sqlite3-cli/install
