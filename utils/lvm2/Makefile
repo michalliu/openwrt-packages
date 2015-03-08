@@ -70,6 +70,7 @@ endef
 define Package/libdevmapper/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/libdevmapper.so.* $(1)/usr/lib
+	#$(call Build/InstallDev,$(1))
 endef
 
 define Package/lvm2/install
