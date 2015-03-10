@@ -17,6 +17,10 @@ ifeq ($(CONFIG_PACKAGE_gcc_version_4_9_2),y)
   PKG_VERSION:=4.9.2
   PKG_MD5SUM:=4df8ee253b7f3863ad0b86359cd39c43
 endif
+ifeq ($(CONFIG_PACKAGE_gcc_version_5_0_0),y)
+  PKG_VERSION:=5.0.0
+  PKG_MD5SUM:=bf54a676e81dadcba2cd9cf591a3e4d6
+endif
 PKG_RELEASE:=1
 PKG_SOURCE_URL:=ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/gcc-$(PKG_VERSION) \
      http://mirrors.rcn.net/pub/sourceware/gcc/releases/gcc-$(PKG_VERSION) \
@@ -69,6 +73,9 @@ define Package/gcc/config
     config PACKAGE_gcc_version_4_9_2
       bool "gcc 4.9.2"
 
+    config PACKAGE_gcc_version_5_0_0
+      bool "gcc 5.0.0 (bleeding edge rev 221263, 20150309)"
+
   endchoice
   menu "GCC build options"
     depends on PACKAGE_gcc
@@ -94,6 +101,7 @@ MPFR=mpfr-2.4.2.tar.bz2
 GMP=gmp-4.3.2.tar.bz2
 MPC=mpc-0.8.1.tar.gz
 ISL=isl-0.12.2.tar.bz2
+ISL_14=isl-0.14.tar.bz2
 CLOOG=cloog-0.18.1.tar.gz
 define Build/Prepare
 	$(PKG_UNPACK)
@@ -109,6 +117,9 @@ define Build/Prepare
 	fi; \
 	if [ -f $(DL_DIR)/$(ISL) ];then \
 		ln -s $(DL_DIR)/$(ISL) $(PKG_BUILD_DIR)/$(ISL); \
+	fi; \
+	if [ -f $(DL_DIR)/$(ISL_14) ];then \
+		ln -s $(DL_DIR)/$(ISL_14) $(PKG_BUILD_DIR)/$(ISL_14); \
 	fi; \
 	if [ -f $(DL_DIR)/$(CLOOG) ];then \
 		ln -s $(DL_DIR)/$(CLOOG) $(PKG_BUILD_DIR)/$(CLOOG); \
