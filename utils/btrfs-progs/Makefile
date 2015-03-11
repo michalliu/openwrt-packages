@@ -76,6 +76,7 @@ define Package/btrfs-progs/install
 	$(INSTALL_BIN) $(addprefix $(PKG_INSTALL_DIR)/usr/bin/, $(progs)) $(1)/usr/bin/
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/btrfs-scan.init $(1)/etc/init.d/btrfs-scan
+	$(call Build/InstallDev,$(1))
 endef
 # move to btrfs-progs/install to create a dev package
 #$(call Build/InstallDev,$(1))
