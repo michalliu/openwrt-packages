@@ -175,28 +175,26 @@ endef
 define Package/gcc/install
 	$(INSTALL_DIR) $(1)/usr/bin $(1)/usr/lib $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
 	cp -ar $(PKG_INSTALL_DIR)/usr/include $(1)/usr
-	cp -a $(PKG_INSTALL_DIR)/usr/bin/{$(REAL_GNU_TARGET_NAME)-{g++,gcc,gccgo},cpp,gcov} $(1)/usr/bin
+	cp -a $(PKG_INSTALL_DIR)/usr/bin/{$(REAL_GNU_TARGET_NAME)-{g++,gcc},cpp,gcov} $(1)/usr/bin
 	ln -s $(REAL_GNU_TARGET_NAME)-g++ $(1)/usr/bin/c++
 	ln -s $(REAL_GNU_TARGET_NAME)-g++ $(1)/usr/bin/g++
 	ln -s $(REAL_GNU_TARGET_NAME)-g++ $(1)/usr/bin/$(REAL_GNU_TARGET_NAME)-c++
 	ln -s $(REAL_GNU_TARGET_NAME)-gcc $(1)/usr/bin/gcc
 	ln -s $(REAL_GNU_TARGET_NAME)-gcc $(1)/usr/bin/$(REAL_GNU_TARGET_NAME)-gcc-$(PKG_VERSION)
-	ln -s $(REAL_GNU_TARGET_NAME)-gccgo $(1)/usr/bin/gccgo
 	cp -ar $(PKG_INSTALL_DIR)/usr/lib/gcc $(1)/usr/lib
 	$(RM) $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/*.a
 	cp -ar $(TOOLCHAIN_DIR)/include $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
 	cp -a $(TOOLCHAIN_DIR)/lib/*.{o,so*} $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
 	cp -a $(TOOLCHAIN_DIR)/lib/*nonshared*.a  $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
 	grep "GROUP.*-lgcc" $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/libgcc_s.so && cp -a $(PKG_INSTALL_DIR)/usr/lib/gcc/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/libgcc.a $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/ ; true
-	# go libraries
-	cp -ar $(PKG_INSTALL_DIR)/usr/lib/go $(1)/usr/lib/
-	$(RM) $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/libgo.so*
-	# use libgo from toolchain, not working, something is wrong
-	#cp -a $(TOOLCHAIN_DIR)/lib/libgo*.a  $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
-	#cp -a $(TOOLCHAIN_DIR)/lib/libgo.so* $(1)/usr/lib/
-	# uncomment to use libgo from this package rather than toolchain
-	cp -ar $(PKG_INSTALL_DIR)/usr/lib/libgo*.a $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
-	cp -ar $(PKG_INSTALL_DIR)/usr/lib/libgo.so* $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
+	if [ -f $(PKG_INSTALL_DIR)/usr/bin/{$(REAL_GNU_TARGET_NAME)-gccgo ];then \
+	cp -a $(PKG_INSTALL_DIR)/usr/bin/{$(REAL_GNU_TARGET_NAME)-gccgo $(1)/usr/bin;\
+	ln -s $(REAL_GNU_TARGET_NAME)-gccgo $(1)/usr/bin/gccgo;\
+	cp -ar $(PKG_INSTALL_DIR)/usr/lib/go $(1)/usr/lib/;\
+	$(RM) $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/libgo.so*;\
+	cp -ar $(PKG_INSTALL_DIR)/usr/lib/libgo*.a $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION);\
+	cp -ar $(PKG_INSTALL_DIR)/usr/lib/libgo.so* $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION);\
+	fi
 endef
 
 $(eval $(call BuildPackage,gcc))
