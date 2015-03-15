@@ -187,7 +187,7 @@ define Package/gcc/install
 	cp -a $(TOOLCHAIN_DIR)/lib/*.{o,so*} $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
 	cp -a $(TOOLCHAIN_DIR)/lib/*nonshared*.a  $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)
 	grep "GROUP.*-lgcc" $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/libgcc_s.so && cp -a $(PKG_INSTALL_DIR)/usr/lib/gcc/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/libgcc.a $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/ ; true
-	if [ -f $(PKG_INSTALL_DIR)/usr/bin/{$(REAL_GNU_TARGET_NAME)-gccgo ];then \
+	if [ -f $(PKG_INSTALL_DIR)/usr/bin/$(REAL_GNU_TARGET_NAME)-gccgo ];then \
 	cp -a $(PKG_INSTALL_DIR)/usr/bin/{$(REAL_GNU_TARGET_NAME)-gccgo $(1)/usr/bin;\
 	ln -s $(REAL_GNU_TARGET_NAME)-gccgo $(1)/usr/bin/gccgo;\
 	cp -ar $(PKG_INSTALL_DIR)/usr/lib/go $(1)/usr/lib/;\
