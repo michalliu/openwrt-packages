@@ -195,6 +195,7 @@ define Package/gcc/install
 	cp -ar $(PKG_INSTALL_DIR)/usr/lib/libgo*.a $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION);\
 	cp -ar $(PKG_INSTALL_DIR)/usr/lib/libgo.so* $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION);\
 	fi
+	ln -s $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/libc.so $(1)/usr/lib/$(PKG_NAME)/$(REAL_GNU_TARGET_NAME)/$(PKG_VERSION)/libc.so.6
 endef
 
 $(eval $(call BuildPackage,gcc))
