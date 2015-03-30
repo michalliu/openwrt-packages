@@ -40,65 +40,104 @@ endef
 PKG_BUILD_DEPENDS:=python-setuptools
 PYTHONPATH:=$(PYTHONPATH):$(PKG_BUILD_DIR)/thirdpart
 
+define Download/django
+   FILE=Django-1.5.8.tar.gz
+   URL=https://www.djangoproject.com/m/releases/1.5/
+   MD5SUM:=675fc736e2c29090f005e217ccf90b5b
+endef
+
+define Download/djblets
+   PROTO=git
+   URL=https://github.com/djblets/djblets.git
+   SUBDIR=djblets-0.6.14
+   FILE=djblets-0.6.14.tar.gz
+   VERSION=58c09bae9b71ac164f78c76746fd2e545aae6c68
+endef
+
+define Download/gunicorn
+   FILE=gunicorn-0.16.1.tar.gz
+   URL=https://pypi.python.org/packages/source/g/gunicorn/
+   MD5SUM:=d53d5d04d941f2a3089e814e753a218f
+endef
+
+define Download/six
+   FILE=six-1.4.1.tar.gz
+   URL=https://pypi.python.org/packages/source/s/six/
+   MD5SUM:=bdbb9e12d3336c198695aa4cf3a61d62
+endef
+
+define Download/chardet
+   FILE=chardet-2.1.1.tar.gz
+   URL=https://pypi.python.org/packages/source/c/chardet/
+   MD5SUM:=295367fd210d20f3febda615a88e1ef0
+endef
+
+define Download/flup
+   FILE=flup-1.0.2-py2.6.egg
+   URL=https://pypi.python.org/packages/2.6/f/flup/
+   MD5SUM:=93ec6e3baeee3e5649a8456105178d4e
+endef
+
+define Download/lockfile
+   FILE=lockfile-0.9.1.tar.gz
+   URL=https://pypi.python.org/packages/source/l/lockfile/
+   MD5SUM:=ce61468d4c1263e3005737bbed2641f0
+endef
+
+define Download/python-daemon
+   FILE=python-daemon-1.5.5.tar.gz
+   URL=https://pypi.python.org/packages/source/p/python-daemon/
+   MD5SUM:=1f6cd41473c2e201021a0aeef395b2b1
+endef
+
+define Download/python-dateutil
+   FILE=python-dateutil-1.5.tar.gz
+   URL=https://pypi.python.org/packages/source/p/python-dateutil/
+   MD5SUM:=0dcb1de5e5cad69490a3b6ab63f0cfa5
+endef
+
 define Build/Configure
 endef
 
 define Build/Compile
+	# Download python dependencies
+	$(eval $(call Download,django))
+	$(eval $(call Download,djblets))
+	$(eval $(call Download,gunicorn))
+	$(eval $(call Download,six))
+	$(eval $(call Download,chardet))
+	$(eval $(call Download,flup))
+	$(eval $(call Download,lockfile))
+	$(eval $(call Download,python-daemon))
+	$(eval $(call Download,python-dateutil))
 	# Install python dependencies
-	if [ ! -f $(DL_DIR)/Django-1.5.8.tar.gz ];then \
-	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "Django-1.5.8.tar.gz"           "675fc736e2c29090f005e217ccf90b5b" "https://www.djangoproject.com/m/releases/1.5/"; \
-	fi
-	if [ ! -f $(DL_DIR)/djblets-release-0.6.14.tar.gz ];then \
-	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "djblets-release-0.6.14.tar.gz" "3ac8ebd83d1543dd3b84b4bf3b748aa4" "https://github.com/djblets/djblets/archive/"; \
-	fi
-	if [ ! -f $(DL_DIR)/gunicorn-0.16.1.tar.gz ];then \
-	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "gunicorn-0.16.1.tar.gz"        "d53d5d04d941f2a3089e814e753a218f" "https://pypi.python.org/packages/source/g/gunicorn/"; \
-	fi
-	if [ ! -f $(DL_DIR)/six-1.4.1.tar.gz ];then \
-	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "six-1.4.1.tar.gz"              "bdbb9e12d3336c198695aa4cf3a61d62" "https://pypi.python.org/packages/source/s/six/"; \
-	fi
-	if [ ! -f $(DL_DIR)/chardet-2.1.1.tar.gz ];then \
-	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "chardet-2.1.1.tar.gz"          "295367fd210d20f3febda615a88e1ef0" "https://pypi.python.org/packages/source/c/chardet/"; \
-	fi
-	if [ ! -f $(DL_DIR)/flup-1.0.2-py2.6.egg ];then \
-	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "flup-1.0.2-py2.6.egg"          "93ec6e3baeee3e5649a8456105178d4e" "https://pypi.python.org/packages/2.6/f/flup/"; \
-	fi
-	if [ ! -f $(DL_DIR)/lockfile-0.9.1.tar.gz ];then \
-	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "lockfile-0.9.1.tar.gz"         "ce61468d4c1263e3005737bbed2641f0" "https://pypi.python.org/packages/source/l/lockfile/"; \
-	fi
-	if [ ! -f $(DL_DIR)/python-daemon-1.5.5.tar.gz ];then \
-	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "python-daemon-1.5.5.tar.gz"    "1f6cd41473c2e201021a0aeef395b2b1" "https://pypi.python.org/packages/source/p/python-daemon/"; \
-	fi
-	if [ ! -f $(DL_DIR)/python-dateutil-1.5.tar.gz ];then \
-	$(SCRIPT_DIR)/download.pl "$(DL_DIR)" "python-dateutil-1.5.tar.gz"    "0dcb1de5e5cad69490a3b6ab63f0cfa5" "https://pypi.python.org/packages/source/p/python-dateutil/"; \
-	fi
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		file:///$(DL_DIR)/Django-1.5.8.tar.gz)
+		$(DL_DIR)/Django-1.5.8.tar.gz)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		file:///$(DL_DIR)/djblets-release-0.6.14.tar.gz)
+		$(DL_DIR)/djblets-0.6.14.tar.gz)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		file:///$(DL_DIR)/gunicorn-0.16.1.tar.gz)
+		$(DL_DIR)/gunicorn-0.16.1.tar.gz)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		file:///$(DL_DIR)/six-1.4.1.tar.gz)
+		$(DL_DIR)/six-1.4.1.tar.gz)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		file:///$(DL_DIR)/chardet-2.1.1.tar.gz)
+		$(DL_DIR)/chardet-2.1.1.tar.gz)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		file:///$(DL_DIR)/flup-1.0.2-py2.6.egg)
+		$(DL_DIR)/flup-1.0.2-py2.6.egg)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		file:///$(DL_DIR)/lockfile-0.9.1.tar.gz)
+		$(DL_DIR)/lockfile-0.9.1.tar.gz)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		file:///$(DL_DIR)/python-daemon-1.5.5.tar.gz)
+		$(DL_DIR)/python-daemon-1.5.5.tar.gz)
 	$(call HostPython,, \
 		$(STAGING_DIR_ROOT)/usr/bin/easy_install -d $(PKG_BUILD_DIR)/thirdpart -Z -N \
-		file:///$(DL_DIR)/python-dateutil-1.5.tar.gz)
+		$(DL_DIR)/python-dateutil-1.5.tar.gz)
 endef
 
 define Package/seafile-seahub/install
